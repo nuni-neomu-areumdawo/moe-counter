@@ -319,101 +319,106 @@ def create_stitched_image(
 
 # --- Main Execution Block (for running the script directly) ---
 if __name__ == "__main__":
-    available_themes = list_themes(THEME_BASE_DIR)
 
-    if not available_themes:
-        print(f"Error: No theme subfolders found in '{THEME_BASE_DIR}'.")
-        sys.exit(1)
+    while True:
+        available_themes = list_themes(THEME_BASE_DIR)
 
-    # --- Get User Input ---
-    number_str = input("Enter the number string (e.g., 12243): ")
-    if not number_str.isdigit():
-        print("Error: Invalid number string.")
-        sys.exit(1)
+        if not available_themes:
+            print(f"Error: No theme subfolders found in '{THEME_BASE_DIR}'.")
 
-    # --- Choose Mode ---
-    print("\nAvailable modes:")
-    print(f"  0: Random Digits (Pick each digit randomly from any theme)")
-    for i, theme_name in enumerate(available_themes):
-        print(f"  {i + 1}: Use Theme '{theme_name}'")
-    print(f"  {len(available_themes) + 1}: Random Theme (Pick one theme randomly)")
+        # --- Get User Input ---
+        number_str = input("Enter the number string (e.g., 1234): ")
+        if not number_str.isdigit():
+            print("Error: Invalid number string.")
+            new_string = ""
 
-    chosen_mode_str = None
-    chosen_theme_name_for_mode = None
-    output_suffix = "unknown"
+            for x in number_str:
+                if(x.isdigit()):
+                    new_string += new_string
 
-    valid = False
-    while not valid:
-        try:
-            choice = int(input(f"Choose a mode (0-{len(available_themes) + 1}): "))
-            if choice == 0:
-                chosen_mode_str = 'random_digits'
-                output_suffix = "randomdigits"
+        # --- Choose Mode ---
+        print("\nAvailable modes:")
+        print(f"  0: Random Digits (Pick each digit randomly from any theme)")
+        for i, theme_name in enumerate(available_themes):
+            print(f"  {i + 1}: Use Theme '{theme_name}'")
+        print(f"  {len(available_themes) + 1}: Random Theme (Pick one theme randomly)")
+
+        chosen_mode_str = None
+        chosen_theme_name_for_mode = None
+        output_suffix = "unknown"
+
+        valid = False
+        while not valid:
+            try:
+                choice = int(input(f"Choose a mode (0-{len(available_themes) + 1}): "))
+                if choice == 0:
+                    chosen_mode_str = 'random_digits'
+                    output_suffix = "randomdigits"
+                    valid = True
+                elif 1 <= choice <= len(available_themes):
+                    chosen_mode_str = 'theme'
+                    chosen_theme_name_for_mode = available_themes[choice - 1]
+                    output_suffix = chosen_theme_name_for_mode
+                    valid = True
+                elif choice == len(available_themes) + 1:
+                    chosen_mode_str = 'random_theme'
+                    output_suffix = "randomtheme"
+                    valid = True
+                else: 
+                    print(f"\n\nInvalid choice! Please use a number from 0-43. You chose {choice}\n\n")
+            except ValueError: 
+                print("Invalid input, try again.")
+        print(f"Selected mode: {chosen_mode_str}" + (f" ({chosen_theme_name_for_mode})" if chosen_theme_name_for_mode else ""))
+
+
+        # --- Choose Resize Behavior ---
+        resize_behavior = True
+        valid = False
+        while not valid:
+            resize_q = input("Resize all digits to match max height before stitching? (yes/no/blank) [yes]: ").lower().strip()
+            if resize_q in ('yes', 'y', '', "blank"): # Default to yes
+                resize_behavior = True
                 valid = True
-            elif 1 <= choice <= len(available_themes):
-                chosen_mode_str = 'theme'
-                chosen_theme_name_for_mode = available_themes[choice - 1]
-                output_suffix = chosen_theme_name_for_mode
-                valid = True
-            elif choice == len(available_themes) + 1:
-                chosen_mode_str = 'random_theme'
-                output_suffix = "randomtheme"
-                valid = True
-            else: 
-                print(f"\n\nInvalid choice! Please use a number from 0-43. You chose {choice}\n\n")
-        except ValueError: 
-            print("Invalid input, try again.")
-    print(f"Selected mode: {chosen_mode_str}" + (f" ({chosen_theme_name_for_mode})" if chosen_theme_name_for_mode else ""))
-
-
-    # --- Choose Resize Behavior ---
-    resize_behavior = True
-    valid = False
-    while not valid:
-        resize_q = input("Resize all digits to match max height before stitching? (yes/no/blank) [yes]: ").lower().strip()
-        if resize_q in ('yes', 'y', '', "blank"): # Default to yes
-            resize_behavior = True
-            valid = True
-        elif resize_q in ('no', 'n'):
-            resize_behavior = False
-            valid = True
-        else:
-            print("Please answer 'yes' or 'no' or leave empty.")
-    print(f"Resize digits: {resize_behavior}")
-
-
-    scale_val = 1.0
-    valid = False
-    while not valid:
-        try:
-            scale_input = input(f"Enter final scale factor (e.g., 1.0 for original stitch size, or leave blank) [{scale_val}]: ").strip()
-            if not scale_input:
-                valid = True
-            scale_val = float(scale_input)
-            if scale_val > 0:
+            elif resize_q in ('no', 'n'):
+                resize_behavior = False
                 valid = True
             else:
-                print("Scale factor must be positive.")
-        except ValueError:
-            print("Invalid input. Please enter a number.")
-    print(f"Final scale factor: {scale_val}")
+                print("Please answer 'yes' or 'no' or leave empty.")
+        print(f"Resize digits: {resize_behavior}")
 
 
-    # --- Suggest Output Filename & Call Function ---
-    output_base = f"combined_{number_str}_{output_suffix}"
-    output_base += "_resized" if resize_behavior else ""
+        scale_val = 1.0
+        valid = False
+        while not valid:
+            try:
+                scale_input = input(f"Enter final scale factor (e.g., 1.0 for original stitch size, or leave blank) [{scale_val}]: ").strip()
+                if not scale_input:
+                    valid = True
+                scale_val = float(scale_input)
+                if scale_val > 0:
+                    valid = True
+                else:
+                    print("Scale factor must be positive.")
+            except ValueError:
+                print("Invalid input. Please enter a number.")
+        print(f"Final scale factor: {scale_val}")
 
-    created_file = create_stitched_image(
-        number_string=number_str,
-        output_filename_base=output_base,
-        scale_factor=scale_val,
-        mode=chosen_mode_str,
-        theme_name=chosen_theme_name_for_mode,
-        base_theme_dir=THEME_BASE_DIR,
-        resize_to_max_height=resize_behavior
-    )
 
-    if created_file:
-        print(f"\nProcess complete. Output file: {created_file}")
-    else:
-        print("\nImage creation failed.")
+        # --- Suggest Output Filename & Call Function ---
+        output_base = f"combined_{number_str}_{output_suffix}"
+        output_base += "_resized" if resize_behavior else ""
+
+        created_file = create_stitched_image(
+            number_string=number_str,
+            output_filename_base=output_base,
+            scale_factor=scale_val,
+            mode=chosen_mode_str,
+            theme_name=chosen_theme_name_for_mode,
+            base_theme_dir=THEME_BASE_DIR,
+            resize_to_max_height=resize_behavior
+        )
+
+        if created_file:
+            print(f"\nProcess complete. Output file: {created_file}")
+        else:
+            print("\nImage creation failed.")
