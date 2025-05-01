@@ -4,7 +4,9 @@
 <details>
   <summary>Examples</summary>
 
-  We have many themes for your usage in personal projects and for fun. Here is all themes!
+  **We have many themes for your usage in personal projects and for fun. Here are many themes!**
+
+![combined_69420123456789_booru-lewd_resized](https://github.com/user-attachments/assets/fdb076ab-e66f-4b99-ac0b-f1ee8955badb)
 ![combined_69420123456789_booru-r6gdrawfriends_resized](https://github.com/user-attachments/assets/ecdc6644-1718-4cde-bfe9-cfa2a4c9fddf)
 ![combined_69420123456789_booru-qualityhentais_resized](https://github.com/user-attachments/assets/2185b300-4029-489c-8228-ce170964d944)
 ![combined_69420123456789_minecraft_resized](https://github.com/user-attachments/assets/459eaa69-7265-471f-9b5d-93270d79164e)
