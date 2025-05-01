@@ -1,6 +1,8 @@
-# moe-counter
+# Moe-Counter
 
 **_A local moe counter girl script for... research... and counting..._**
+
+# Examples
 <details>
   <summary>Examples</summary>
 
