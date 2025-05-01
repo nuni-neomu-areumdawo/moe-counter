@@ -70,3 +70,5 @@ This application provides a simple, themed visual counter. It features various "
 *   Themed appearance with different characters/styles (~40 themes included!).
 *   Runs locally on your machine, can be used as .exe or in your own program through create_stitched_image function.
 *   Simple setup.
+
+*Same assets as https://count.getloli.com/ but local, with different controls.*
