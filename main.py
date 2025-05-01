@@ -268,7 +268,14 @@ def create_stitched_image(
             else:
                 output_frames_scaled = stitched_frames_unscaled 
 
-            output_path = f"{output_filename_base}.gif"
+            if output_dir == "":
+                output_path = f"./{output_filename_base}.gif"
+            else:
+                if(not os.path.exists(f"./{output_dir}")):
+                    os.makedirs(f"./{output_dir}")
+                    
+                output_path = f"./{output_dir}/{output_filename_base}.gif"
+                
             output_frames_scaled[0].save(
                 output_path, save_all=True, append_images=output_frames_scaled[1:],
                 duration=base_duration, loop=0, transparency=0, disposal=2
@@ -338,7 +345,8 @@ if __name__ == "__main__":
                 
                 valid = True
         else:
-            print("Choosing 1234.")
+            print("Defaulting to 69420123456789.")
+            number_str = "69420123456789"
 
         # --- Choose Mode ---
         print("\nAvailable modes:")
