@@ -48,11 +48,23 @@
 ![combined_69420123456789_booru-smtg_resized](https://github.com/user-attachments/assets/b84ca293-790d-4964-a5a4-f576c3731361)
 ![combined_69420123456789_booru-rfck_resized](https://github.com/user-attachments/assets/9de67744-32a6-41ac-8d77-72c9c16348ff)
 
-  
+etc! 40~ themes, some lewd.
 </details>
 
+## How to Use
 
-etc... 40~ themes!
+1.  Navigate to the folder where you installed the application.
+2.  Run the main executable file (e.g., double-click `moe-counter.exe`, or run main.py).
+3.  The counter window should appear on your screen.
+4.  You can also use in your own programs with the "create_stitched_image" function.
 
-**Use**
-to be pasted fromt empalte later
+## Description
+
+This application provides a simple, themed visual counter. It features various "moe" styled characters accompanying the count display. Keep track of... whatever you need to count... locally and with a bit of visual flair.
+
+**Features:**
+
+*   Visual counter display.
+*   Themed appearance with different characters/styles (~40 themes included!).
+*   Runs locally on your machine, can be used as .exe or in your own program through create_stitched_image function.
+*   Simple setup.
