@@ -1,5 +1,4 @@
 import os
-import sys
 import random
 from PIL import Image
 
@@ -319,7 +318,6 @@ def create_stitched_image(
 
 # --- Main Execution Block (for running the script directly) ---
 if __name__ == "__main__":
-
     while True:
         available_themes = list_themes(THEME_BASE_DIR)
 
@@ -328,13 +326,19 @@ if __name__ == "__main__":
 
         # --- Get User Input ---
         number_str = input("Enter the number string (e.g., 1234): ")
-        if not number_str.isdigit():
-            print("Error: Invalid number string.")
-            new_string = ""
 
-            for x in number_str:
-                if(x.isdigit()):
-                    new_string += new_string
+        if(len(number_str) > 0):
+            if not number_str.isdigit():
+                print("Error: Invalid number string.")
+                new_string = ""
+
+                for x in number_str:
+                    if(x.isdigit()):
+                        new_string += new_string
+                
+                valid = True
+        else:
+            print("Choosing 1234.")
 
         # --- Choose Mode ---
         print("\nAvailable modes:")
@@ -342,6 +346,7 @@ if __name__ == "__main__":
         for i, theme_name in enumerate(available_themes):
             print(f"  {i + 1}: Use Theme '{theme_name}'")
         print(f"  {len(available_themes) + 1}: Random Theme (Pick one theme randomly)")
+        print(f"  {len(available_themes) + 2}: All Themes (Go over all themes)")
 
         chosen_mode_str = None
         chosen_theme_name_for_mode = None
@@ -350,7 +355,7 @@ if __name__ == "__main__":
         valid = False
         while not valid:
             try:
-                choice = int(input(f"Choose a mode (0-{len(available_themes) + 1}): "))
+                choice = int(input(f"Choose a mode (0-{len(available_themes) + 2}): "))
                 if choice == 0:
                     chosen_mode_str = 'random_digits'
                     output_suffix = "randomdigits"
@@ -364,8 +369,12 @@ if __name__ == "__main__":
                     chosen_mode_str = 'random_theme'
                     output_suffix = "randomtheme"
                     valid = True
+                elif choice == len(available_themes) + 2:
+                    chosen_mode_str = 'all_themes'
+                    output_suffix = "all_themes"
+                    valid = True
                 else: 
-                    print(f"\n\nInvalid choice! Please use a number from 0-43. You chose {choice}\n\n")
+                    print(f"\n\nInvalid choice! Please use a number from 0-44. You chose {choice}\n\n")
             except ValueError: 
                 print("Invalid input, try again.")
         print(f"Selected mode: {chosen_mode_str}" + (f" ({chosen_theme_name_for_mode})" if chosen_theme_name_for_mode else ""))
@@ -405,18 +414,35 @@ if __name__ == "__main__":
 
 
         # --- Suggest Output Filename & Call Function ---
-        output_base = f"combined_{number_str}_{output_suffix}"
-        output_base += "_resized" if resize_behavior else ""
 
-        created_file = create_stitched_image(
-            number_string=number_str,
-            output_filename_base=output_base,
-            scale_factor=scale_val,
-            mode=chosen_mode_str,
-            theme_name=chosen_theme_name_for_mode,
-            base_theme_dir=THEME_BASE_DIR,
-            resize_to_max_height=resize_behavior
-        )
+        if(chosen_mode_str == "all_themes"):
+            for i in range(len(available_themes)):
+                chosen_theme_name_for_mode = available_themes[i - 1]
+
+                output_base = f"combined_{number_str}_{chosen_theme_name_for_mode}"
+                output_base += "_resized" if resize_behavior else ""
+
+                created_file = create_stitched_image(
+                    number_string=number_str,
+                    output_filename_base=output_base,
+                    scale_factor=scale_val,
+                    mode="theme",
+                    theme_name=chosen_theme_name_for_mode,
+                    base_theme_dir=THEME_BASE_DIR,
+                    resize_to_max_height=resize_behavior
+                )
+        else:
+            output_base = f"combined_{number_str}_{output_suffix}"
+            output_base += "_resized" if resize_behavior else ""
+            created_file = create_stitched_image(
+                number_string=number_str,
+                output_filename_base=output_base,
+                scale_factor=scale_val,
+                mode=chosen_mode_str,
+                theme_name=chosen_theme_name_for_mode,
+                base_theme_dir=THEME_BASE_DIR,
+                resize_to_max_height=resize_behavior
+            )
 
         if created_file:
             print(f"\nProcess complete. Output file: {created_file}")
