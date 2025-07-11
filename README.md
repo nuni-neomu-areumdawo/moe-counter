@@ -59,6 +59,7 @@ etc! 40~ themes, some lewd.
 2.  Run the main executable file (e.g., double-click `moe-counter.exe`, or run main.py).
 3.  The counter window should appear on your screen.
 4.  You can also use in your own programs with the "create_stitched_image" function.
+5.  (You do need to install the image folder from this repo though!)
 
 ## Description
 
