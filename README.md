@@ -1,6 +1,6 @@
 # Moe-Counter
 
-**_A local moe counter girl script for... research... and counting..._**
+**_A local moe counter girl script for... research... and counting... (example output below)_** 
 ![combined_69420123456789_booru-lewd_resized](https://github.com/user-attachments/assets/fdb076ab-e66f-4b99-ac0b-f1ee8955badb)
 
 # More Random Examples
